@@ -4,10 +4,11 @@ using namespace std;
 
 Mesh::Mesh(const std::vector<Vertex> &vertices,
            const std::vector<unsigned int> &indices,
-           const std::vector<Texture> &textures){
+           const std::vector<Texture> &textures, const std::vector<Material> &materials){
     _vertices = vertices;
     _indices = indices;
     _textures = textures;
+    _materials = materials;
 
     setupMesh();
 }
@@ -52,6 +53,11 @@ void Mesh::draw(Shader shader){
         glBindTexture(GL_TEXTURE_2D, _textures[i].id);
     }
     glActiveTexture(GL_TEXTURE0);
+    shader.setVec3("material.ambient", _materials[0].ambient);
+    shader.setVec3("material.diffuse", _materials[0].diffuse);
+    shader.setVec3("material.specular", _materials[0].specular); // specular lighting doesn't have full effect on this object's material
+    shader.setFloat("material.shininess", _materials[0].shininess);
+
     // draw mesh
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);

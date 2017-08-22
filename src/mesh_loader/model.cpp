@@ -39,6 +39,114 @@ unsigned int TextureFromFile(const char *path, const std::string &directory, boo
     return textureID;
 }
 
+vector<string> names;
+
+constexpr unsigned int str2int(const char* str, int h = 0) {
+    return !str[h] ? 5381 : (str2int(str, h+1) * 33) ^ str[h];
+}
+
+Material materialFromString(const char* name){
+    Material mat;
+    string label(name);
+    label = label.substr(0,label.find_first_of("_"));
+
+    vector<string>::iterator it;
+
+    it = find (names.begin(),names.end(),label);
+    if(it == names.end()){
+        cerr << label << endl;
+        names.push_back(label);
+    }
+    switch (str2int(label.c_str())) {
+    case str2int("clutter"):
+        mat.ambient = glm::vec3 (0.2f, 1.0f, 1.0f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("chair"):
+        mat.ambient = glm::vec3 (0.4f, 1.0f, 1.0f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("wall"):
+        mat.ambient = glm::vec3 (0.6f, 1.0f, 1.0f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("bookcase"):
+        mat.ambient = glm::vec3 (0.8f, 1.0f, 1.0f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("table"):
+        mat.ambient = glm::vec3 (1.0f, 0.2f, 1.0f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("board"):
+        mat.ambient = glm::vec3 (1.0f, 0.4f, 1.0f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("floor"):
+        mat.ambient = glm::vec3 (1.0f, 0.6f, 1.0f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("beam"):
+        mat.ambient = glm::vec3 (1.0f, 0.8f, 1.0f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("ceiling"):
+        mat.ambient = glm::vec3 (1.0f, 1.0f, 0.2f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("window"):
+        mat.ambient = glm::vec3 (1.0f, 1.0f, 0.4f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("door"):
+        mat.ambient = glm::vec3 (1.0f, 1.0f, 0.6f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("sofa"):
+        mat.ambient = glm::vec3 (1.0f, 1.0f, 0.8f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    case str2int("column"):
+        mat.ambient = glm::vec3 (1.0f, 1.0f, 1.0f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    default:
+        mat.ambient = glm::vec3 (1.0f, 1.0f, 1.0f);
+        mat.diffuse = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.specular = glm::vec3 (0.1f, 0.1f, 0.1f);
+        mat.shininess = 32.0f;
+        break;
+    }
+
+    return mat;
+}
+
 void Model::draw(Shader shader){
     for(unsigned int i=0; i < _meshes.size(); ++i)
         _meshes[i].draw(shader);
@@ -76,6 +184,8 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene){
     vector<Vertex> vertices;
     vector<unsigned int> indices;
     vector<Texture> textures;
+    vector<Material> materials;
+
     for(unsigned int i = 0; i < mesh->mNumVertices; i++){
 
         Vertex vertex;
@@ -109,10 +219,11 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene){
     // process material
     if(mesh->mMaterialIndex >= 0){
         aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+        aiString name;
+        material->Get(AI_MATKEY_NAME, name);
+        materials.push_back(materialFromString(name.C_Str()));
 
-//        aiString name;
-//        material->Get(AI_MATKEY_NAME, name);
-//        cerr << name.C_Str() << ": ";
+        //        cerr << name.C_Str() << ": ";
 //        aiColor3D color;
 //        material->Get(AI_MATKEY_COLOR_AMBIENT, color);
 //        cerr << color.r << " " << color.g << " " << color.b << endl;
@@ -124,7 +235,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene){
         textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
     }
 
-    return Mesh(vertices, indices, textures);
+    return Mesh(vertices, indices, textures, materials);
 }
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName){

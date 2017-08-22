@@ -20,15 +20,24 @@ struct Texture {
     aiString path;
 };
 
+struct Material{
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
+    float shininess;
+};
+
 class Mesh{
 public:
     std::vector<Vertex> _vertices;
     std::vector<unsigned int> _indices;
     std::vector<Texture> _textures;
+    std::vector<Material> _materials;
 
     Mesh(const std::vector<Vertex>& vertices,
          const std::vector<unsigned int>& indices,
-         const std::vector<Texture>& textures);
+         const std::vector<Texture>& textures,
+         const std::vector<Material>& materials);
 
     void draw(Shader shader);
 
