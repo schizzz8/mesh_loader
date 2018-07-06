@@ -101,8 +101,8 @@ int main() {
 
     glEnable(GL_DEPTH_TEST);
 
-    Shader shader("materials.vs", "materials.fs");
-    Shader lampShader("lamp.vs", "lamp.fs");
+    Shader shader("../shaders/materials.vs", "../shaders/materials.fs");
+    Shader lampShader("../shaders/lamp.vs", "../shaders/lamp.fs");
 
 
     //Model ourModel(FileSystem::getPath("models/nanosuit/nanosuit.obj"));
