@@ -13,5 +13,4 @@ To build the package, remember to install:
  
 ### How to use it:
 
-
-
+Run `mesh_loader_app` in `bin` folder.
